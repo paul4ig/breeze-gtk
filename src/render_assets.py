@@ -300,50 +300,52 @@ class Assets(object):
         self.cr.fill()
 
     def minimize(self, color=None):
-        self.cr.move_to(4, 7)
-        self.cr.line_to(9, 12)
-        self.cr.line_to(14, 7)
+        self.cr.rectangle(7.5,7.5,3,3)
         if color is None:
             self.cr.set_operator(cairo.OPERATOR_CLEAR)
         else:
             self.cr.set_source_rgb(color[0], color[1], color[2])
         self.cr.set_line_width(1.0)
-        self.cr.stroke()
+        self.cr.set_line_join(cairo.LineJoin.ROUND)
+        self.cr.stroke_preserve()
+        self.cr.fill()
 
     def maximize(self, color=None):
-        self.cr.move_to(4, 11)
-        self.cr.line_to(9, 6)
-        self.cr.line_to(14, 11)
+        self.cr.rectangle(4.5, 4.5, 9, 9)
         if color is None:
             self.cr.set_operator(cairo.OPERATOR_CLEAR)
         else:
             self.cr.set_source_rgb(color[0], color[1], color[2])
         self.cr.set_line_width(1.0)
+        self.cr.set_line_join(cairo.LineJoin.ROUND)
         self.cr.stroke()
 
     def maximize_maximized(self, color=None):
-        self.cr.move_to(4.5, 9)
-        self.cr.line_to(9, 4.5)
-        self.cr.line_to(13.5, 9)
-        self.cr.line_to(9, 13.5)
-        self.cr.close_path()
+        self.cr.rectangle(4.5, 6.5, 7, 7)
+        self.cr.move_to(6.5, 6.5)
+        self.cr.line_to(6.5, 4.5)
+        self.cr.line_to(13.5, 4.5)
+        self.cr.line_to(13.5, 11.5)
+        self.cr.line_to(11.5, 11.5)
         if color is None:
             self.cr.set_operator(cairo.OPERATOR_CLEAR)
         else:
             self.cr.set_source_rgb(color[0], color[1], color[2])
         self.cr.set_line_width(1.0)
+        self.cr.set_line_join(cairo.LineJoin.ROUND)
         self.cr.stroke()
 
     def close(self, color=None):
-        self.cr.move_to(5, 5)
-        self.cr.line_to(13, 13)
-        self.cr.move_to(13, 5)
-        self.cr.line_to(5, 13)
+        self.cr.move_to(4.5, 4.5)
+        self.cr.line_to(13.5, 13.5)
+        self.cr.move_to(13.5, 4.5)
+        self.cr.line_to(4.5, 13.5)
         if color is None:
             self.cr.set_operator(cairo.OPERATOR_CLEAR)
         else:
             self.cr.set_source_rgb(color[0], color[1], color[2])
         self.cr.set_line_width(1.0)
+        self.cr.set_line_cap(cairo.LineCap.ROUND)
         self.cr.stroke()
 
     def save(self, filename):
@@ -526,24 +528,24 @@ def titlebuttons(color1, color2, state):
         title_minimize = Assets(18, 18, scl)
         title_maximize = Assets(18, 18, scl)
         title_maximized = Assets(18, 18, scl)
+        title_close = Assets(18, 18, scl)
         if state == '' or state == '-backdrop':
             title_minimize.minimize(color1)
             title_maximize.maximize(color1)
             title_maximized.maximize_maximized(color1)
+            title_close.close(color1)
         else:
             title_minimize.circle(color1, 9, 9, 9)
             title_maximize.circle(color1, 9, 9, 9)
             title_maximized.circle(color1, 9, 9, 9)
+            title_close.circle(color2, 9, 9, 9)
             title_minimize.minimize()
             title_maximize.maximize()
             title_maximized.maximize_maximized()
+            title_close.close()
         title_minimize.save('titlebutton-minimize' + state + ending)
         title_maximize.save('titlebutton-maximize' + state + ending)
         title_maximized.save('titlebutton-maximize-maximized' + state + ending)
-
-        title_close = Assets(18, 18, scl)
-        title_close.circle(color2, 9, 9, 9)
-        title_close.close()
         title_close.save('titlebutton-close' + state + ending)
 
 
